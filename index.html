@@ -18,7 +18,7 @@
     <meta property="og:image" content="assets/alarlogo.png" />
     <link rel="icon" type="image/png" href="assets/alarfavicon.png" />
     <link rel="apple-touch-icon" href="assets/alarfavicon.png" />
-    <link rel="preload" as="image" href="assets/alarlogo-display.png" />
+    <link rel="preload" as="image" href="assets/images/1.jpeg" fetchpriority="high" />
     <link rel="stylesheet" href="styles.css" />
     <script type="application/ld+json">
       {
@@ -107,6 +107,18 @@
         <path d="M12 22s7-6 7-13a7 7 0 0 0-14 0c0 7 7 13 7 13Z" />
         <circle cx="12" cy="9" r="2.5" />
       </symbol>
+      <symbol id="icon-chevron-left" viewBox="0 0 24 24">
+        <path d="m15 18-6-6 6-6" />
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+        <path d="m9 18 6-6-6-6" />
+      </symbol>
+      <symbol id="icon-pause" viewBox="0 0 24 24">
+        <path d="M9 5v14M15 5v14" />
+      </symbol>
+      <symbol id="icon-play" viewBox="0 0 24 24">
+        <path d="m8 5 12 7-12 7V5Z" />
+      </symbol>
     </svg>
 
     <header class="site-header" data-header>
@@ -134,72 +146,60 @@
     </header>
 
     <main id="contenido">
-      <section class="hero blueprint-band" id="inicio" aria-labelledby="hero-title">
-        <div class="container hero-grid">
-          <div class="hero-copy reveal">
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-slides" data-hero-slides aria-hidden="true">
+          <img
+            class="hero-slide is-active"
+            data-hero-slide
+            src="assets/images/1.jpeg"
+            alt=""
+            width="1600"
+            height="720"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+        <div class="hero-inner container">
+          <div class="hero-copy">
             <p class="eyebrow">Electromecánica, electricidad y mantenimiento técnico en Costa Rica</p>
-            <h1 id="hero-title">Soluciones Electromecánicas Seguras, Profesionales y Confiables</h1>
+            <h1 id="hero-title">Soluciones electromecánicas seguras, profesionales y confiables</h1>
             <p class="hero-subtitle">
               Electricidad general, fontanería y telecomunicaciones para empresas, bodegas, oficinas y proyectos
               comerciales en Costa Rica.
             </p>
             <div class="hero-actions" aria-label="Acciones principales">
               <a class="button button-primary" href="https://wa.me/50672052511" target="_blank" rel="noopener">
-                Solicitar Cotización
+                Solicitar cotización
               </a>
-              <a class="button button-secondary" href="#servicios">Ver Servicios</a>
+              <a class="button button-secondary" href="#servicios">Ver servicios</a>
             </div>
-            <dl class="quick-facts" aria-label="Datos de la empresa">
-              <div>
-                <dt>Cédula jurídica</dt>
-                <dd>3-102-755930</dd>
-              </div>
-              <div>
-                <dt>Ubicación</dt>
-                <dd>Santa Ana, San José</dd>
-              </div>
-              <div>
-                <dt>Contacto directo</dt>
-                <dd>7205-2511</dd>
-              </div>
-            </dl>
           </div>
 
-          <div class="hero-visual reveal" aria-label="Ilustración técnica de servicios electromecánicos">
-            <img class="hero-logo" src="assets/alarlogo-display.png" alt="Electromecánica ALAR LTDA" width="312" height="244" />
-            <svg class="blueprint-illustration" viewBox="0 0 620 420" role="img" aria-labelledby="blueprint-title">
-              <title id="blueprint-title">Plano técnico con tablero eléctrico, tubería EMT, enchufe y líneas de energía</title>
-              <defs>
-                <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
-                  <path d="M24 0H0v24" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1" />
-                </pattern>
-              </defs>
-              <rect width="620" height="420" rx="8" fill="url(#grid)" />
-              <path class="energy-path" d="M46 330H178c30 0 48-20 48-48V142c0-30 18-48 48-48h154" />
-              <path class="energy-path second" d="M58 92h126c30 0 48 18 48 48v86c0 30 18 48 48 48h284" />
-              <g class="panel-drawing">
-                <rect x="74" y="122" width="150" height="188" rx="8" />
-                <path d="M104 162h90M104 202h90M104 242h52" />
-                <circle cx="183" cy="244" r="11" />
-              </g>
-              <g class="plug-drawing">
-                <path d="M448 92v54c0 28 22 50 50 50h10c28 0 50-22 50-50V92" />
-                <path d="M476 92V46M532 92V46" />
-                <path d="M503 196v52c0 42-34 76-76 76H304" />
-              </g>
-              <g class="pipe-drawing">
-                <path d="M338 92h92M430 92v76M430 168h84" />
-                <path d="M314 84h26v16h-26zM506 160h26v16h-26z" />
-              </g>
-              <g class="outlet-drawing">
-                <rect x="382" y="224" width="78" height="118" rx="32" />
-                <path d="M408 270v24M434 270v24M406 312h30" />
-              </g>
-              <g class="dimension-lines">
-                <path d="M76 356h446M76 346v20M522 346v20" />
-                <path d="M270 70v276M260 70h20M260 346h20" />
-              </g>
-            </svg>
+          <div class="hero-bottom">
+            <p class="hero-caption">Proyectos comerciales, instalaciones y tableros técnicos</p>
+            <div class="hero-slider" data-hero-slider data-slide-count="17">
+              <div class="hero-slide-controls" role="group" aria-label="Controles de la galería">
+                <button class="hero-control" type="button" data-slide-previous aria-label="Imagen anterior" title="Imagen anterior">
+                  <svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg>
+                </button>
+                <button
+                  class="hero-control"
+                  type="button"
+                  data-slide-toggle
+                  aria-label="Pausar presentación"
+                  title="Pausar presentación"
+                >
+                  <svg aria-hidden="true"><use href="#icon-pause"></use></svg>
+                </button>
+                <button class="hero-control" type="button" data-slide-next aria-label="Imagen siguiente" title="Imagen siguiente">
+                  <svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                </button>
+              </div>
+              <div class="hero-slide-meta" aria-hidden="true">
+                <span><span data-slide-current>01</span> / <span data-slide-total>17</span></span>
+                <span class="hero-progress"><span data-slide-progress></span></span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -5,6 +5,13 @@ const navLinks = document.querySelectorAll(".nav-menu a");
 const form = document.querySelector("#contact-form");
 const feedback = document.querySelector("#form-feedback");
 const year = document.querySelector("#year");
+const heroSlider = document.querySelector("[data-hero-slider]");
+const heroSlidesLayer = document.querySelector("[data-hero-slides]");
+const heroSlideToggle = document.querySelector("[data-slide-toggle]");
+const heroSlideCurrent = document.querySelector("[data-slide-current]");
+const heroSlideTotal = document.querySelector("[data-slide-total]");
+const heroSlideProgress = document.querySelector("[data-slide-progress]");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -23,6 +30,110 @@ navToggle?.addEventListener("click", () => {
 
 navLinks.forEach((link) => {
   link.addEventListener("click", () => setMenuState(false));
+});
+
+const heroImages = [];
+const firstHeroImage = heroSlidesLayer?.querySelector("[data-hero-slide]");
+const heroImageCount = Number(heroSlider?.dataset.slideCount || 0);
+let activeHeroIndex = 0;
+let rotationPaused = reducedMotion.matches;
+let rotationTimer = null;
+
+if (firstHeroImage && heroSlidesLayer) {
+  heroImages.push(firstHeroImage);
+
+  for (let index = 1; index < heroImageCount; index += 1) {
+    const image = new Image();
+    image.className = "hero-slide";
+    image.alt = "";
+    image.width = 1600;
+    image.height = 720;
+    image.decoding = "async";
+    image.loading = "eager";
+    image.src = `assets/images/${index + 1}.jpeg`;
+    heroSlidesLayer.append(image);
+    heroImages.push(image);
+  }
+}
+
+const showHeroSlide = (index) => {
+  if (heroImages.length === 0) {
+    return;
+  }
+
+  activeHeroIndex = (index + heroImages.length) % heroImages.length;
+  heroImages.forEach((image, imageIndex) => {
+    image.classList.toggle("is-active", imageIndex === activeHeroIndex);
+  });
+
+  if (heroSlideCurrent) {
+    heroSlideCurrent.textContent = String(activeHeroIndex + 1).padStart(2, "0");
+  }
+  if (heroSlideTotal) {
+    heroSlideTotal.textContent = String(heroImages.length).padStart(2, "0");
+  }
+  heroSlideProgress?.style.setProperty("transform", `scaleX(${(activeHeroIndex + 1) / heroImages.length})`);
+};
+
+const stopHeroRotation = () => {
+  if (rotationTimer !== null) {
+    window.clearInterval(rotationTimer);
+    rotationTimer = null;
+  }
+};
+
+const startHeroRotation = () => {
+  if (rotationPaused || document.hidden || heroImages.length < 2 || rotationTimer !== null) {
+    return;
+  }
+
+  rotationTimer = window.setInterval(() => showHeroSlide(activeHeroIndex + 1), 4000);
+};
+
+const setHeroRotationPaused = (paused) => {
+  rotationPaused = paused;
+  stopHeroRotation();
+
+  const label = rotationPaused ? "Reanudar presentación" : "Pausar presentación";
+  heroSlideToggle?.setAttribute("aria-label", label);
+  heroSlideToggle?.setAttribute("title", label);
+  heroSlideToggle?.querySelector("use")?.setAttribute("href", rotationPaused ? "#icon-play" : "#icon-pause");
+  startHeroRotation();
+};
+
+showHeroSlide(0);
+setHeroRotationPaused(rotationPaused);
+
+heroSlider?.querySelector("[data-slide-previous]")?.addEventListener("click", () => {
+  showHeroSlide(activeHeroIndex - 1);
+  if (!rotationPaused) {
+    stopHeroRotation();
+    startHeroRotation();
+  }
+});
+
+heroSlider?.querySelector("[data-slide-next]")?.addEventListener("click", () => {
+  showHeroSlide(activeHeroIndex + 1);
+  if (!rotationPaused) {
+    stopHeroRotation();
+    startHeroRotation();
+  }
+});
+
+heroSlideToggle?.addEventListener("click", () => setHeroRotationPaused(!rotationPaused));
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopHeroRotation();
+  } else {
+    startHeroRotation();
+  }
+});
+
+reducedMotion.addEventListener?.("change", (event) => {
+  if (event.matches) {
+    setHeroRotationPaused(true);
+  }
 });
 
 window.addEventListener("scroll", () => {
